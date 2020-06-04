@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add exercise</title>
+</head>
+<body>
+{% extends 'base.html' %}
+{% block title %}Add exercise{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+<table>
+    <tr>
+        <th>Training</th>
+        <th>Calories burned</th>
+    </tr>
+    {% for item in exercise_list %}
+    <tr>
+         <td>{{ item.training_name }}</td>
+         <td>{{ item.calories_burned }}</td>
+        <td>
+            <form method="post">
+                {% csrf_token %}
+                {{add_new_exercise_form}}
+                <input type="hidden" name="training_name" method="post" value="{{ item.id }}">
+                <input type="submit" value="Add" method="post" onclick="myalert()">
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+</div>
+<div class="container" style="padding-top: 10px">
+    <div>
+        <a class="btn btn-primary" href="create-exercise" role="button" style="float: left">Create new exercise</a>
+    </div>
+</div>
+<script>
+function myalert() {
+  alert("Exercise added");
+}
+</script>
+{% endblock %}
+</body>
+</html>

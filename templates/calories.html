@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kalorije</title>
+</head>
+<body>
+{% extends 'base.html' %}
+{% block title %}Calories{% endblock %}
+{% block content %}
+{% if user.is_authenticated %}
+<div style="width: 50%">
+    <div>
+        <p>Your Daily Summary for today <span id="date"></span></p>
+        <script>
+                n =  new Date();
+                y = n.getFullYear();
+                m = n.getMonth() + 1;
+                d = n.getDate();
+                document.getElementById("date").innerHTML = d + "." + m + "." + y;
+        </script>
+    </div>
+    <div>
+        <table width="300px">
+            <tr>
+                <th>{{ getuser.tdee }}</th>
+                <th style="text-align: left">-</th>
+                <th>{{ getintake }}</th>
+                <th style="text-align: left">=</th>
+                <th>{{ remaining }}</th>
+            </tr>
+            <tr>
+                <td>GOAL</td>
+                <td></td>
+                <td>FOOD</td>
+                <td></td>
+                <td>REMAINING</td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+<div name="table-container" style="padding-top: 30px">
+    <!--food tabe-->
+    <div>
+        <h3>My food for today</h3>
+        <table title="My food for the day" style="width: 100%">
+            <tr>
+                <th>Food</th>
+                <th>Kcal_100g</th>
+                <th>Protein</th>
+                <th>Carbs</th>
+                <th>Fat</th>
+                <th>qty</th>
+                <th>Total kcal</th>
+                <th>Update qty</th>
+                <th>Delete</th>
+            </tr>
+            {% for item in foodintakefortheday %}
+            <tr>
+                <td>{{ item.food_id__food_name }}</td>
+                <td>{{ item.food_id__kcal_100g }}</td>
+                <td>{{ item.food_id__protein }} g</td>
+                <td>{{ item.food_id__carbs }} g</td>
+                <td>{{ item.food_id__fat }} g</td>
+                <td>{{ item.amount }}</td>
+                <td>{% widthratio item.food_id__kcal_100g 1 item.amount %}</td>
+                <td>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ updateqtyform.amount }}
+                        <input type="hidden" name="foodintake_id" method="post" value="{{ item.id }}">
+                        <input type="submit" value="Update" method="post" onclick="myalert()">
+                    </form>
+                </td>
+                <td>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ deletefoodintakeform }}
+                        <input type="hidden" name="foodintake_id" method="post" value="{{ item.id }}">
+                        <input type="submit" value="Delete" method="post" onclick="myalert2()">
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+            <div>
+        <a class="btn btn-primary" href="add-food" role="button" style="margin-top: 20px">Add food</a>
+    </div>
+    </div>
+    <!--exercise table-->
+    <div style="padding-top: 10px; width: 100%">
+        <h3>My exercise for today</h3>
+        <table title="My exercise for the day" style="width: 50%">
+            <tr>
+                <th>Exercise</th>
+                <th>Calories burned</th>
+                <th>Delete</th>
+            </tr>
+            {% for item in exercisesfortheday %}
+            <tr>
+                 <td>{{ item.training_id__training_name }}</td>
+                 <td>{{ item.training_id__calories_burned }}</td>
+                 <td>
+                     <form method="post">
+                        {% csrf_token %}
+                        {{ deleteexerciseform }}
+                        <input type="hidden" name="exercise_id" method="post" value="{{ item.id }}">
+                        <input type="submit" value="Delete" method="post" onclick="myalert2()">
+                    </form>
+                 </td>
+            </tr>
+             {% endfor %}
+        </table>
+    </div>
+
+
+    <div>
+        <a class="btn btn-primary" href="add-exercise" role="button" style="margin-top: 20px">Add exercise</a>
+    </div>
+</div>
+<script>
+function myalert() {
+  alert("Qty updated");
+}
+</script>
+<script>
+function myalert2() {
+  alert("Deleted");
+}
+</script>
+{% else %}
+    <p>Please login or create an account to view this page. Login <a href="/login">here</a>.</p>
+{% endif %}
+{% endblock %}
+</body>
+</html>

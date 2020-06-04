@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create exercise</title>
+</head>
+<body>
+{% extends 'base.html' %}
+{% block title %}Create exercise{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+<form method="post" class="form-group"  style="width: 100px">
+    {% csrf_token %}
+    {{create_new_exercise|crispy}}
+    <button type="submit" type="reset" class="btn btn-success" onclick="myalert()">Create</button>
+</form>
+<script>
+function myalert() {
+  alert("Exercise created");
+}
+</script>
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add food</title>
+</head>
+<body>
+{% extends 'base.html' %}
+{% block title %}Add food{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container">
+<table>
+    <tr>
+        <th>Food</th>
+        <th>Kcal_100g</th>
+        <th>Protein</th>
+        <th>Carbs</th>
+        <th>Fat</th>
+        <th>add</th>
+    </tr>
+    {% for item in food_list %}
+    <tr>
+        <td>{{ item.food_name }}</td>
+        <td>{{ item.kcal_100g }}</td>
+        <td>{{ item.protein }} g</td>
+        <td>{{ item.carbs }} g</td>
+        <td>{{ item.fat }} g</td>
+        <td>
+            <form method="post">
+                {% csrf_token %}
+                {{user_food_input_form}}
+                <input type="text" name="amount" method="post" placeholder="qty" style="text-align: right">
+                <input type="hidden" name="food_id" method="post" value="{{ item.id }}">
+                <input type="submit" value="Add" method="post" onclick="myalert()">
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+</div>
+<div class="container" style="padding-top: 10px">
+    <div>
+        <a class="btn btn-primary" href="create-food" role="button" style="float: left">Create new food</a>
+    </div>
+</div>
+<script>
+function myalert() {
+  alert("Food added");
+}
+</script>
+{% endblock %}
+</body>
+</html>

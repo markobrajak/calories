@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create food</title>
+</head>
+<body>
+{% extends 'base.html' %}
+{% block title %}Create food{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+<form method="post" class="form-group" style="width: 100px">
+    {% csrf_token %}
+    {{create_new_food_form|crispy}}
+    <button type="submit" class="btn btn-success" onclick="myalert()">Create</button>
+</form>
+<script>
+function myalert() {
+  alert("Food created");
+}
+</script>
+{% endblock %}
+</body>
+</html>

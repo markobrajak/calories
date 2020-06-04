@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Moj profil</title>
+</head>
+<body>
+{% extends 'base.html' %}
+{% block title %}My profile{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% if user.is_authenticated %}
+    <p>Hi {{ getuser.username|capfirst }}!</p>
+<div>
+    <form method="post">
+        {% csrf_token %}
+        {{form|crispy}}
+        <input type = 'submit' value="Save changes">
+    </form>
+</div>
+
+{% else %}
+    <p>Please login or create an account to view this page. Login <a href="/login">here</a>.</p>
+{% endif %}
+{% endblock %}
+
+</body>
+</html>

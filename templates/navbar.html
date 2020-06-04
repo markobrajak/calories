@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <style type="text/css">
+        .sidenav{
+            height: 100%;
+            width: 180px;
+            position: fixed;
+            z-index: 1;
+            top:0;
+            left:0;
+            background-color: #111;
+            overflow-x: hidden;
+            padding-top: 20px;
+        }
+
+        .sidenav a {
+            padding: 6px 8px 6px 16px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #818181;
+            display: block;
+        }
+
+        .sidenav a:hover{
+            color: #f1f1f1;
+        }
+
+    </style>
+
+    <title>Navigacija</title>
+</head>
+<body>
+{% if user.is_authenticated %}
+<nav class="sidenav">
+    <a href="/">Home</a>
+    <a href="/calories">Calories</a>
+    <a href="/add-exercise">Add exercise</a>
+    <a href="/add-food">Add food</a>
+    <a href="/my-profile">My profile</a>
+</nav>
+{% else %}
+<nav class="sidenav">
+    <a href="/">Home</a>
+    <a href="/calories">Calories</a>
+    <a href="/my-profile">My profile</a>
+    <a href="/login">Login</a>
+</nav>
+{% endif %}
+
+
+</body>
+</html>
